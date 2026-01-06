@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="definitelynot.ai - AI Detection Suite: Text Fingerprinting, Image Analysis, Unicode Sanitization">
+    <title>definitelynot.ai - AI Detection Suite</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- HTMX for progressive enhancement -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10/dist/ext/sse.js"></script>
+    
+    <style>
+        :root {
+            /* Unified color system - cosmic meets matrix */
+            --bg-void: #050508;
+            --bg-primary: #0a0a12;
+            --bg-elevated: #12121f;
+            --bg-surface: #1a1a2e;
+            --bg-glow: rgba(0, 217, 255, 0.03);
+            
+            --border: #1f1f3a;
+            --border-glow: #2a2a4a;
+            
+            --text: #e0e4f0;
+            --text-dim: #8088a0;
+            --text-muted: #505870;
+            
+            /* Tool accent colors */
+            --accent-text: #00d9ff;    /* SpecHO - cyan */
+            --accent-image: #a855f7;   /* Look - purple */
+            --accent-lint: #00ff88;    /* Linter - green */
+            
+            --human: #00ff88;
+            --ai: #ff4466;
+            --uncertain: #ffaa00;
+            
+            /* Glow effects */
+            --glow-text: 0 0 20px rgba(0, 217, 255, 0.4);
+            --glow-image: 0 0 20px rgba(168, 85, 247, 0.4);
+            --glow-lint: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html { 
+            font-size: 16px; 
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', -apple-system, sans-serif;
+            background: var(--bg-void);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* ============================================
+           COSMIC BACKGROUND EFFECTS
+           ============================================ */
+        
+        .cosmic-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .starfield {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,0.2), transparent);
+            background-size: 200px 200px;
+            animation: starfield-drift 60s linear infinite;
+        }
+        
+        @keyframes starfield-drift {
+            from { transform: translateY(0); }
+            to { transform: translateY(-200px); }
+        }
+        
+        .nebula {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(0, 217, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%);
+            animation: nebula-pulse 20s ease-in-out infinite;
+        }
+        
+        @keyframes nebula-pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.05) rotate(1deg); }
+        }
+        
+        /* Scanline effect */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+            pointer-events: none;
+        }
+        
+        /* ============================================
+           LAYOUT
+           ============================================ */
+        
+        .container {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* ============================================
+           HEADER
+           ============================================ */
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(180deg, var(--bg-glow) 0%, transparent 100%);
+        }
+        
+        .logo-cluster {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            box-shadow: var(--glow-text);
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, var(--accent-text), var(--accent-image), var(--accent-lint));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: var(--glow-text);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tagline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            letter-spacing: 0.05em;
+        }
+        
+        /* ============================================
+           TOOL NAVIGATION
+           ============================================ */
+        
+        .tool-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            padding: 0.5rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .tool-tab {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .tool-tab:hover {
+            color: var(--text);
+            background: var(--bg-surface);
+        }
+        
+        .tool-tab.active {
+            color: var(--accent-text);
+            background: var(--bg-surface);
+            border-color: var(--accent-text);
+            box-shadow: var(--glow-text);
+        }
+        
+        .tool-tab[data-tool="text"].active {
+            color: var(--accent-text);
+            border-color: var(--accent-text);
+            box-shadow: var(--glow-text);
+        }
+        
+        .tool-tab[data-tool="image"].active {
+            color: var(--accent-image);
+            border-color: var(--accent-image);
+            box-shadow: var(--glow-image);
+        }
+        
+        .tool-tab[data-tool="lint"].active {
+            color: var(--accent-lint);
+            border-color: var(--accent-lint);
+            box-shadow: var(--glow-lint);
+        }
+        
+        .tool-tab .icon {
+            font-size: 1.2rem;
+        }
+        
+        /* ============================================
+           TOOL PANELS
+           ============================================ */
+        
+        .tool-panels {
+            position: relative;
+        }
+        
+        .tool-panel {
+            display: none;
+            animation: panel-fade-in 0.3s ease;
+        }
+        
+        .tool-panel.active {
+            display: block;
+        }
+        
+        @keyframes panel-fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* ============================================
+           SHARED CARD STYLES
+           ============================================ */
+        
+        .card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: var(--border-glow);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--text);
+        }
+        
+        .card-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-dim);
+        }
+        
+        /* ============================================
+           INPUT AREAS
+           ============================================ */
+        
+        .input-zone {
+            position: relative;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-text);
+            box-shadow: var(--glow-text);
+        }
+        
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .input-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-text), #0099cc);
+            color: var(--bg-void);
+            box-shadow: var(--glow-text);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.6);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--accent-text);
+        }
+        
+        /* ============================================
+           RESULTS DISPLAY
+           ============================================ */
+        
+        .results-zone {
+            min-height: 200px;
+        }
+        
+        .result-verdict {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-verdict.human {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        .result-verdict.ai {
+            background: rgba(255, 68, 102, 0.1);
+            border: 1px solid rgba(255, 68, 102, 0.3);
+        }
+        
+        .result-verdict.uncertain {
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid rgba(255, 170, 0, 0.3);
+        }
+        
+        .verdict-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        
+        .verdict-label.human { color: var(--human); }
+        .verdict-label.ai { color: var(--ai); }
+        .verdict-label.uncertain { color: var(--uncertain); }
+        
+        .verdict-confidence {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+        
+        /* ============================================
+           FEATURE BARS (SSE Streaming)
+           ============================================ */
+        
+        .feature-stream {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .feature-row {
+            display: grid;
+            grid-template-columns: 150px 1fr 60px;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-surface);
+            border-radius: 8px;
+            animation: feature-slide-in 0.3s ease;
+        }
+        
+        @keyframes feature-slide-in {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .feature-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        
+        .feature-bar {
+            height: 8px;
+            background: var(--bg-elevated);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .feature-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .feature-fill.human { background: var(--human); }
+        .feature-fill.ai { background: var(--ai); }
+        .feature-fill.neutral { background: var(--accent-text); }
+        
+        .feature-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-align: right;
+            color: var(--text);
+        }
+        
+        /* ============================================
+           MODEL FINGERPRINT (Radar/Spider Chart)
+           ============================================ */
+        
+        .fingerprint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .model-card {
+            padding: 1rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .model-card:hover {
+            border-color: var(--accent-text);
+            transform: translateY(-2px);
+        }
+        
+        .model-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+        
+        .model-prob {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-text);
+        }
+        
+        .model-bar {
+            height: 4px;
+            background: var(--bg-elevated);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .model-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-text), var(--accent-image));
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        
+        /* ============================================
+           SSE STREAMING INDICATOR
+           ============================================ */
+        
+        .stream-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-surface);
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        
+        .stream-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-text);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        
+        .stream-status.active .stream-dot {
+            background: var(--human);
+        }
+        
+        .stream-status.error .stream-dot {
+            background: var(--ai);
+            animation: none;
+        }
+        
+        /* ============================================
+           DEMO SECTION
+           ============================================ */
+        
+        .demo-section {
+            margin-top: 4rem;
+            padding-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .demo-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text);
+        }
+        
+        .demo-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 900px) {
+            .demo-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .demo-card {
+            padding: 2rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-text);
+        }
+        
+        .demo-card[data-tool="text"]:hover { border-color: var(--accent-text); }
+        .demo-card[data-tool="image"]:hover { border-color: var(--accent-image); }
+        .demo-card[data-tool="lint"]:hover { border-color: var(--accent-lint); }
+        
+        .demo-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-card[data-tool="text"] h3 { color: var(--accent-text); }
+        .demo-card[data-tool="image"] h3 { color: var(--accent-image); }
+        .demo-card[data-tool="lint"] h3 { color: var(--accent-lint); }
+        
+        .demo-card p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+        }
+        
+        .demo-animation {
+            height: 60px;
+            background: var(--bg-surface);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Text analysis animation */
+        .demo-card[data-tool="text"] .demo-animation::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-text), transparent);
+            animation: scan-line 2s ease-in-out infinite;
+        }
+        
+        /* Image scan animation */
+        .demo-card[data-tool="image"] .demo-animation::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, var(--accent-image) 0%, transparent 50%);
+            animation: scan-vertical 2s ease-in-out infinite;
+        }
+        
+        /* Lint clean animation */
+        .demo-card[data-tool="lint"] .demo-animation::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, var(--accent-lint), transparent 70%);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes scan-line {
+            0%, 100% { transform: translateY(-50%) translateX(-100%); }
+            50% { transform: translateY(-50%) translateX(100%); }
+        }
+        
+        @keyframes scan-vertical {
+            0%, 100% { transform: translateY(-100%); opacity: 0.5; }
+            50% { transform: translateY(100%); opacity: 0.8; }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 0.7; transform: scale(1); }
+        }
+        
+        /* ============================================
+           FOOTER
+           ============================================ */
+        
+        footer {
+            margin-top: 4rem;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        
+        footer p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        footer a {
+            color: var(--accent-text);
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ============================================
+           UPLOAD ZONE (for images)
+           ============================================ */
+        
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--accent-image);
+            background: rgba(168, 85, 247, 0.05);
+        }
+        
+        .upload-zone input[type="file"] {
+            display: none;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .upload-text {
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .tool-nav {
+                flex-direction: column;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .feature-row {
+                grid-template-columns: 100px 1fr 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cosmic Background -->
+    <div class="cosmic-bg">
+        <div class="starfield"></div>
+        <div class="nebula"></div>
+        <div class="scanlines"></div>
+    </div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-cluster">
+                <div class="logo-icon">🔬</div>
+            </div>
+            <h1>DEFINITELYNOT.AI</h1>
+            <p class="tagline">AI Detection Suite • Text Fingerprinting • Image Analysis • Unicode Security</p>
+        </header>
+        
+        <!-- Tool Navigation -->
+        <nav class="tool-nav" role="tablist">
+            <button class="tool-tab active" data-tool="text" role="tab" aria-selected="true">
+                <span class="icon">📝</span>
+                <span>TEXT</span>
+            </button>
+            <button class="tool-tab" data-tool="image" role="tab" aria-selected="false">
+                <span class="icon">🖼️</span>
+                <span>IMAGE</span>
+            </button>
+            <button class="tool-tab" data-tool="lint" role="tab" aria-selected="false">
+                <span class="icon">🧹</span>
+                <span>LINT</span>
+            </button>
+        </nav>
+        
+        <!-- Tool Panels -->
+        <div class="tool-panels">
+            <!-- TEXT PANEL (SpecHO) -->
+            <div class="tool-panel active" id="panel-text" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">TEXT FINGERPRINTING</h2>
+                        <div class="stream-status" id="text-stream-status">
+                            <div class="stream-dot"></div>
+                            <span>Ready</span>
+                        </div>
+                    </div>
+                    
+                    <div class="input-zone">
+                        <textarea 
+                            id="text-input" 
+                            placeholder="Paste text to analyze for AI fingerprinting...
+
+The system will identify:
+• Which AI model likely generated it (GPT-4, Claude, Llama, etc.)
+• Human vs AI probability
+• 45-dimensional feature analysis"
+                            oninput="updateTextMeta()"
+                        ></textarea>
+                        <div class="input-meta">
+                            <span id="text-char-count">0 characters</span>
+                            <span id="text-compute-mode">WebGPU: Checking...</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <button class="btn btn-primary" id="analyze-text-btn" disabled>
+                            <span>ANALYZE TEXT</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Results (SSE populated) -->
+                <div class="card results-zone" id="text-results" style="display: none;">
+                    <div class="card-header">
+                        <h2 class="card-title">ANALYSIS RESULTS</h2>
+                        <span class="card-badge" id="text-tier-badge">Tier 1</span>
+                    </div>
+                    
+                    <div class="result-verdict" id="text-verdict">
+                        <div class="verdict-label" id="text-verdict-label">ANALYZING...</div>
+                        <div class="verdict-confidence" id="text-verdict-conf">Extracting features...</div>
+                    </div>
+                    
+                    <h3 style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem;">FEATURE ANALYSIS</h3>
+                    <div class="feature-stream" id="text-features">
+                        <!-- SSE streamed features appear here -->
+                    </div>
+                    
+                    <h3 style="font-size: 0.9rem; color: var(--text-dim); margin: 1.5rem 0 1rem;">MODEL FINGERPRINT</h3>
+                    <div class="fingerprint-grid" id="text-models">
+                        <!-- Model probabilities appear here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- IMAGE PANEL (Look) -->
+            <div class="tool-panel" id="panel-image" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">IMAGE ANALYSIS</h2>
+                        <div class="stream-status" id="image-stream-status">
+                            <div class="stream-dot"></div>
+                            <span id="image-backend">Detecting backend...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-zone" id="image-upload-zone" onclick="document.getElementById('image-input').click()">
+                        <input type="file" id="image-input" accept="image/*">
+                        <div class="upload-icon">📸</div>
+                        <p class="upload-text"><strong>Drop image here</strong> or click to browse</p>
+                        <p class="upload-hint">PNG, JPG, WEBP • All processing runs locally via WebGPU</p>
+                    </div>
+                    
+                    <div id="image-preview" style="display: none; margin-top: 1.5rem;">
+                        <img id="preview-img" style="max-width: 100%; border-radius: 8px;">
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <button class="btn btn-primary" id="analyze-image-btn" disabled style="background: linear-gradient(135deg, var(--accent-image), #7c3aed);">
+                            <span>ANALYZE IMAGE</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card results-zone" id="image-results" style="display: none;">
+                    <div class="card-header">
+                        <h2 class="card-title">DETECTION RESULTS</h2>
+                    </div>
+                    <div class="result-verdict" id="image-verdict">
+                        <div class="verdict-label" id="image-verdict-label">SCANNING...</div>
+                        <div class="verdict-confidence" id="image-verdict-conf">Running detection models...</div>
+                    </div>
+                    <div id="image-model-votes"></div>
+                </div>
+            </div>
+            
+            <!-- LINT PANEL -->
+            <div class="tool-panel" id="panel-lint" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">UNICODE SANITIZER</h2>
+                        <span class="card-badge">v2.3.1</span>
+                    </div>
+                    
+                    <div class="input-zone">
+                        <textarea 
+                            id="lint-input" 
+                            placeholder="Paste text to sanitize...
+
+Removes:
+• Invisible Unicode (zero-width chars, BiDi controls)
+• AI watermarks (variation selectors)
+• Homoglyph attacks (Cyrillic/Latin spoofing)
+• Trojan source attacks"
+                            oninput="updateLintMeta()"
+                        ></textarea>
+                        <div class="input-meta">
+                            <span id="lint-char-count">0 characters</span>
+                            <span id="lint-byte-count">0 bytes</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center;">
+                        <button class="btn btn-secondary mode-btn active" data-mode="safe">SAFE</button>
+                        <button class="btn btn-secondary mode-btn" data-mode="aggressive">AGGRESSIVE</button>
+                        <button class="btn btn-secondary mode-btn" data-mode="strict">STRICT</button>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <button class="btn btn-primary" id="sanitize-btn" style="background: linear-gradient(135deg, var(--accent-lint), #00cc6a);">
+                            <span>SANITIZE TEXT</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card" id="lint-results" style="display: none;">
+                    <div class="card-header">
+                        <h2 class="card-title">SANITIZED OUTPUT</h2>
+                        <span class="card-badge" id="lint-removed">0 removed</span>
+                    </div>
+                    
+                    <textarea id="lint-output" readonly placeholder="Cleaned text will appear here..."></textarea>
+                    
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-secondary" onclick="copyLintOutput()">COPY TO CLIPBOARD</button>
+                    </div>
+                    
+                    <div id="lint-advisories" style="margin-top: 1.5rem;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Demo Section -->
+        <section class="demo-section">
+            <h2 class="demo-title">HOW IT WORKS</h2>
+            
+            <div class="demo-cards">
+                <div class="demo-card" data-tool="text">
+                    <div class="demo-icon">📝</div>
+                    <h3>Text Fingerprinting</h3>
+                    <p>45-dimensional analysis identifies which AI model wrote the text with 98.6% accuracy.</p>
+                    <div class="demo-animation"></div>
+                </div>
+                
+                <div class="demo-card" data-tool="image">
+                    <div class="demo-icon">🖼️</div>
+                    <h3>Image Detection</h3>
+                    <p>Multiple ML models vote on whether an image is AI-generated or authentic.</p>
+                    <div class="demo-animation"></div>
+                </div>
+                
+                <div class="demo-card" data-tool="lint">
+                    <div class="demo-icon">🧹</div>
+                    <h3>Unicode Sanitizer</h3>
+                    <p>Removes invisible characters, AI watermarks, and homoglyph attacks.</p>
+                    <div class="demo-animation"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <p>
+                Part of the <a href="https://aurora-protocol.org">AURORA Protocol</a> •
+                <a href="https://github.com/definitelynot-ai">Source</a> •
+                Built by <a href="https://internetuniverse.org">Internet Universe</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // ============================================
+        // TAB NAVIGATION
+        // ============================================
+        
+        document.querySelectorAll('.tool-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update tabs
+                document.querySelectorAll('.tool-tab').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+                
+                // Update panels
+                const tool = tab.dataset.tool;
+                document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+                document.getElementById(`panel-${tool}`).classList.add('active');
+            });
+        });
+        
+        // ============================================
+        // TEXT ANALYSIS (SpecHO)
+        // ============================================
+        
+        const textInput = document.getElementById('text-input');
+        const textBtn = document.getElementById('analyze-text-btn');
+        const textResults = document.getElementById('text-results');
+        const textFeatures = document.getElementById('text-features');
+        const textModels = document.getElementById('text-models');
+        
+        function updateTextMeta() {
+            const len = textInput.value.length;
+            document.getElementById('text-char-count').textContent = `${len.toLocaleString()} characters`;
+            textBtn.disabled = len < 100;
+        }
+        
+        // Check WebGPU
+        async function checkWebGPU() {
+            const modeEl = document.getElementById('text-compute-mode');
+            if ('gpu' in navigator) {
+                try {
+                    const adapter = await navigator.gpu.requestAdapter();
+                    if (adapter) {
+                        modeEl.textContent = 'WebGPU: Active';
+                        modeEl.style.color = 'var(--human)';
+                        return true;
+                    }
+                } catch (e) {}
+            }
+            modeEl.textContent = 'WebGPU: Unavailable (using server)';
+            modeEl.style.color = 'var(--uncertain)';
+            return false;
+        }
+        checkWebGPU();
+        
+        textBtn.addEventListener('click', async () => {
+            const text = textInput.value;
+            if (text.length < 100) return;
+            
+            textBtn.disabled = true;
+            textResults.style.display = 'block';
+            textFeatures.innerHTML = '';
+            textModels.innerHTML = '';
+            
+            const status = document.getElementById('text-stream-status');
+            status.classList.add('active');
+            status.querySelector('span').textContent = 'Analyzing...';
+            
+            // SSE connection for streaming results
+            const eventSource = new EventSource(`/api/analyze-stream?text=${encodeURIComponent(text)}`);
+            
+            eventSource.addEventListener('feature', (e) => {
+                const data = JSON.parse(e.data);
+                addFeatureRow(data.name, data.value, data.signal);
+            });
+            
+            eventSource.addEventListener('verdict', (e) => {
+                const data = JSON.parse(e.data);
+                showVerdict(data.label, data.confidence, data.human_prob, data.ai_prob);
+            });
+            
+            eventSource.addEventListener('model', (e) => {
+                const data = JSON.parse(e.data);
+                addModelCard(data.name, data.probability);
+            });
+            
+            eventSource.addEventListener('complete', (e) => {
+                eventSource.close();
+                status.classList.remove('active');
+                status.querySelector('span').textContent = 'Complete';
+                textBtn.disabled = false;
+            });
+            
+            eventSource.addEventListener('error', () => {
+                eventSource.close();
+                status.classList.add('error');
+                status.querySelector('span').textContent = 'Error - using fallback';
+                
+                // Fallback to regular fetch
+                fallbackAnalyze(text);
+            });
+        });
+        
+        function addFeatureRow(name, value, signal) {
+            const row = document.createElement('div');
+            row.className = 'feature-row';
+            
+            const signalClass = signal > 0.6 ? 'ai' : signal < 0.4 ? 'human' : 'neutral';
+            const signalPct = Math.round(signal * 100);
+            
+            row.innerHTML = `
+                <span class="feature-name">${name}</span>
+                <div class="feature-bar">
+                    <div class="feature-fill ${signalClass}" style="width: ${signalPct}%"></div>
+                </div>
+                <span class="feature-value">${value.toFixed(3)}</span>
+            `;
+            textFeatures.appendChild(row);
+        }
+        
+        function addModelCard(name, probability) {
+            const card = document.createElement('div');
+            card.className = 'model-card';
+            card.innerHTML = `
+                <div class="model-name">${name}</div>
+                <div class="model-prob">${Math.round(probability * 100)}%</div>
+                <div class="model-bar">
+                    <div class="model-bar-fill" style="width: ${probability * 100}%"></div>
+                </div>
+            `;
+            textModels.appendChild(card);
+        }
+        
+        function showVerdict(label, confidence, humanProb, aiProb) {
+            const verdict = document.getElementById('text-verdict');
+            const labelEl = document.getElementById('text-verdict-label');
+            const confEl = document.getElementById('text-verdict-conf');
+            
+            verdict.className = 'result-verdict ' + label.toLowerCase();
+            labelEl.className = 'verdict-label ' + label.toLowerCase();
+            labelEl.textContent = label;
+            confEl.textContent = `${Math.round(confidence * 100)}% confidence • Human: ${Math.round(humanProb * 100)}% • AI: ${Math.round(aiProb * 100)}%`;
+        }
+        
+        async function fallbackAnalyze(text) {
+            // Use HTMX to post to regular endpoint
+            try {
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+                const data = await response.json();
+                
+                // Display results
+                showVerdict(data.label, data.confidence, data.human_prob, data.ai_prob);
+                
+                for (const [name, value] of Object.entries(data.features || {})) {
+                    const signal = data.feature_signals?.[name] || 0.5;
+                    addFeatureRow(name, value, signal);
+                }
+                
+                for (const [name, prob] of Object.entries(data.model_probabilities || {})) {
+                    addModelCard(name, prob);
+                }
+            } catch (e) {
+                console.error('Fallback analysis failed:', e);
+            }
+            
+            textBtn.disabled = false;
+        }
+        
+        // ============================================
+        // IMAGE ANALYSIS (Look)
+        // ============================================
+        
+        const imageInput = document.getElementById('image-input');
+        const imageBtn = document.getElementById('analyze-image-btn');
+        const imageUploadZone = document.getElementById('image-upload-zone');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+        
+        // Check backend for image
+        async function checkImageBackend() {
+            const el = document.getElementById('image-backend');
+            if ('gpu' in navigator) {
+                try {
+                    const adapter = await navigator.gpu.requestAdapter();
+                    if (adapter) {
+                        el.textContent = 'WebGPU Ready';
+                        return;
+                    }
+                } catch (e) {}
+            }
+            el.textContent = 'WASM Fallback';
+        }
+        checkImageBackend();
+        
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImg.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    imageUploadZone.style.display = 'none';
+                    imageBtn.disabled = false;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Drag and drop
+        imageUploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUploadZone.classList.add('dragover');
+        });
+        
+        imageUploadZone.addEventListener('dragleave', () => {
+            imageUploadZone.classList.remove('dragover');
+        });
+        
+        imageUploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                imageInput.files = e.dataTransfer.files;
+                imageInput.dispatchEvent(new Event('change'));
+            }
+        });
+        
+        // ============================================
+        // LINT
+        // ============================================
+        
+        const lintInput = document.getElementById('lint-input');
+        const lintOutput = document.getElementById('lint-output');
+        const lintResults = document.getElementById('lint-results');
+        const sanitizeBtn = document.getElementById('sanitize-btn');
+        let lintMode = 'safe';
+        
+        function updateLintMeta() {
+            const text = lintInput.value;
+            document.getElementById('lint-char-count').textContent = `${text.length.toLocaleString()} characters`;
+            document.getElementById('lint-byte-count').textContent = `${new Blob([text]).size.toLocaleString()} bytes`;
+        }
+        
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                lintMode = btn.dataset.mode;
+            });
+        });
+        
+        sanitizeBtn.addEventListener('click', async () => {
+            const text = lintInput.value;
+            if (!text) return;
+            
+            try {
+                const response = await fetch('/api/clean.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `text=${encodeURIComponent(text)}&mode=${lintMode}`
+                });
+                const data = await response.json();
+                
+                lintOutput.value = data.text;
+                document.getElementById('lint-removed').textContent = `${data.stats.characters_removed} removed`;
+                lintResults.style.display = 'block';
+                
+                // Show advisories
+                const advisoriesEl = document.getElementById('lint-advisories');
+                const activeAdvisories = Object.entries(data.stats.advisories)
+                    .filter(([k, v]) => v)
+                    .map(([k]) => k.replace('had_', '').replace(/_/g, ' '));
+                
+                if (activeAdvisories.length > 0) {
+                    advisoriesEl.innerHTML = `
+                        <div style="padding: 1rem; background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); border-radius: 8px;">
+                            <strong style="color: var(--uncertain);">⚠️ Security Advisories:</strong>
+                            <div style="margin-top: 0.5rem; color: var(--text-dim);">
+                                ${activeAdvisories.join(' • ')}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    advisoriesEl.innerHTML = '';
+                }
+            } catch (e) {
+                console.error('Lint failed:', e);
+            }
+        });
+        
+        function copyLintOutput() {
+            navigator.clipboard.writeText(lintOutput.value);
+        }
+    </script>
+</body>
+</html>

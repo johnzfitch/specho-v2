@@ -1,0 +1,39 @@
+# SpecHO v2 Requirements
+# ======================
+
+# Core
+numpy>=1.24.0
+scipy>=1.11.0
+
+# NLP Core
+spacy>=3.7.0
+
+# Phonetic Processing
+pronouncing>=0.2.0
+
+# String Similarity
+python-Levenshtein>=0.21.0
+jellyfish>=1.0.0
+
+# Semantic Analysis
+gensim>=4.3.0
+sentence-transformers>=2.2.0
+
+# Machine Learning
+scikit-learn>=1.0.0
+
+# Data Processing
+pandas>=1.3.0
+
+# Data Structures
+pydantic>=2.0.0
+
+# Pin setuptools to avoid pkg_resources deprecation warning
+setuptools<81.0.0
+
+# Testing
+pytest>=7.4.0
+
+# CLI & Utilities
+rich>=13.0.0
+tqdm>=4.66.0

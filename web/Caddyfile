@@ -1,0 +1,70 @@
+# Caddyfile for FrankenPHP
+# 
+# Run with: frankenphp run --config Caddyfile
+# Or for development: frankenphp php-server --root . --listen :8080
+
+{
+    # Enable FrankenPHP
+    frankenphp
+    
+    # Worker mode for persistent PHP processes (much faster)
+    order php_server before file_server
+}
+
+:8080 {
+    # Root directory
+    root * .
+    
+    # Enable compression
+    encode gzip
+    
+    # PHP handling with worker mode
+    php_server {
+        # Worker mode: keep PHP processes alive
+        num_workers 4
+        
+        # Optional: enable early hints
+        resolve_root_symlink
+    }
+    
+    # Static files with long cache
+    @static {
+        path /static/*
+    }
+    header @static Cache-Control "public, max-age=31536000, immutable"
+    file_server @static
+    
+    # Security headers
+    header {
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+    
+    # Logging
+    log {
+        output stdout
+        format console
+    }
+}
+
+# Production config (uncomment and adjust)
+# definitelynot.ai {
+#     root * /var/www/definitelynot
+#     
+#     # TLS via Caddy's automatic HTTPS
+#     tls your-email@example.com
+#     
+#     php_server {
+#         num_workers 8
+#     }
+#     
+#     encode gzip zstd
+#     
+#     header {
+#         Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+#         X-Content-Type-Options "nosniff"
+#         X-Frame-Options "DENY"
+#     }
+# }

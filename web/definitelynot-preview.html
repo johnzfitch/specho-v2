@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>definitelynot.ai - Preview</title>
+    <style>
+        :root {
+            --bg-void: #050508;
+            --bg-primary: #0a0a12;
+            --bg-elevated: #12121f;
+            --bg-surface: #1a1a2e;
+            --bg-glow: rgba(0, 217, 255, 0.03);
+            --border: #1f1f3a;
+            --border-glow: #2a2a4a;
+            --text: #e0e4f0;
+            --text-dim: #8088a0;
+            --text-muted: #505870;
+            --accent-text: #00d9ff;
+            --accent-image: #a855f7;
+            --accent-lint: #00ff88;
+            --human: #00ff88;
+            --ai: #ff4466;
+            --uncertain: #ffaa00;
+            --glow-text: 0 0 20px rgba(0, 217, 255, 0.4);
+            --glow-image: 0 0 20px rgba(168, 85, 247, 0.4);
+            --glow-lint: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Space Grotesk', -apple-system, sans-serif;
+            background: var(--bg-void);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .cosmic-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .starfield {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,0.2), transparent);
+            background-size: 200px 200px;
+            animation: starfield-drift 60s linear infinite;
+        }
+        
+        @keyframes starfield-drift {
+            from { transform: translateY(0); }
+            to { transform: translateY(-200px); }
+        }
+        
+        .nebula {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(0, 217, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%);
+            animation: nebula-pulse 20s ease-in-out infinite;
+        }
+        
+        @keyframes nebula-pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.05) rotate(1deg); }
+        }
+        
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+            pointer-events: none;
+        }
+        
+        .container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(180deg, var(--bg-glow) 0%, transparent 100%);
+        }
+        
+        .logo-cluster {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            box-shadow: var(--glow-text);
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, var(--accent-text), var(--accent-image), var(--accent-lint));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tagline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            letter-spacing: 0.05em;
+        }
+        
+        .tool-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            padding: 0.5rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .tool-tab {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .tool-tab:hover {
+            color: var(--text);
+            background: var(--bg-surface);
+        }
+        
+        .tool-tab.active {
+            color: var(--accent-text);
+            background: var(--bg-surface);
+            border-color: var(--accent-text);
+            box-shadow: var(--glow-text);
+        }
+        
+        .tool-tab[data-tool="image"].active {
+            color: var(--accent-image);
+            border-color: var(--accent-image);
+            box-shadow: var(--glow-image);
+        }
+        
+        .tool-tab[data-tool="lint"].active {
+            color: var(--accent-lint);
+            border-color: var(--accent-lint);
+            box-shadow: var(--glow-lint);
+        }
+        
+        .tool-panel { display: none; animation: panel-fade-in 0.3s ease; }
+        .tool-panel.active { display: block; }
+        
+        @keyframes panel-fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover { border-color: var(--border-glow); }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--text);
+        }
+        
+        .card-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-dim);
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-text);
+            box-shadow: var(--glow-text);
+        }
+        
+        textarea::placeholder { color: var(--text-muted); }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-text), #0099cc);
+            color: var(--bg-void);
+            box-shadow: var(--glow-text);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.6);
+        }
+        
+        .result-verdict {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-verdict.human {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        .result-verdict.ai {
+            background: rgba(255, 68, 102, 0.1);
+            border: 1px solid rgba(255, 68, 102, 0.3);
+        }
+        
+        .verdict-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        
+        .verdict-label.human { color: var(--human); }
+        .verdict-label.ai { color: var(--ai); }
+        
+        .verdict-confidence {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+        
+        .feature-stream { display: flex; flex-direction: column; gap: 0.75rem; }
+        
+        .feature-row {
+            display: grid;
+            grid-template-columns: 140px 1fr 60px;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-surface);
+            border-radius: 8px;
+            animation: feature-slide-in 0.3s ease;
+        }
+        
+        @keyframes feature-slide-in {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .feature-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        
+        .feature-bar {
+            height: 8px;
+            background: var(--bg-elevated);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .feature-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .feature-fill.human { background: var(--human); }
+        .feature-fill.ai { background: var(--ai); }
+        .feature-fill.neutral { background: var(--accent-text); }
+        
+        .feature-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-align: right;
+            color: var(--text);
+        }
+        
+        .fingerprint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .model-card {
+            padding: 1rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .model-card:hover {
+            border-color: var(--accent-text);
+            transform: translateY(-2px);
+        }
+        
+        .model-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+        
+        .model-prob {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-text);
+        }
+        
+        .model-bar {
+            height: 4px;
+            background: var(--bg-elevated);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .model-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-text), var(--accent-image));
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        
+        .stream-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-surface);
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        
+        .stream-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--human);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        
+        .demo-section {
+            margin-top: 4rem;
+            padding-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .demo-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text);
+        }
+        
+        .demo-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 900px) {
+            .demo-cards { grid-template-columns: 1fr; }
+        }
+        
+        .demo-card {
+            padding: 2rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .demo-card[data-tool="text"]:hover { border-color: var(--accent-text); }
+        .demo-card[data-tool="image"]:hover { border-color: var(--accent-image); }
+        .demo-card[data-tool="lint"]:hover { border-color: var(--accent-lint); }
+        
+        .demo-icon { font-size: 3rem; margin-bottom: 1rem; }
+        
+        .demo-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-card[data-tool="text"] h3 { color: var(--accent-text); }
+        .demo-card[data-tool="image"] h3 { color: var(--accent-image); }
+        .demo-card[data-tool="lint"] h3 { color: var(--accent-lint); }
+        
+        .demo-card p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+        }
+        
+        .demo-animation {
+            height: 60px;
+            background: var(--bg-surface);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .demo-card[data-tool="text"] .demo-animation::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-text), transparent);
+            animation: scan-line 2s ease-in-out infinite;
+        }
+        
+        .demo-card[data-tool="image"] .demo-animation::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, var(--accent-image) 0%, transparent 50%);
+            animation: scan-vertical 2s ease-in-out infinite;
+        }
+        
+        .demo-card[data-tool="lint"] .demo-animation::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, var(--accent-lint), transparent 70%);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes scan-line {
+            0%, 100% { transform: translateY(-50%) translateX(-100%); }
+            50% { transform: translateY(-50%) translateX(100%); }
+        }
+        
+        @keyframes scan-vertical {
+            0%, 100% { transform: translateY(-100%); opacity: 0.5; }
+            50% { transform: translateY(100%); opacity: 0.8; }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 0.7; transform: scale(1); }
+        }
+        
+        footer {
+            margin-top: 4rem;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        
+        footer p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        footer a {
+            color: var(--accent-text);
+            text-decoration: none;
+        }
+        
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-zone:hover {
+            border-color: var(--accent-image);
+            background: rgba(168, 85, 247, 0.05);
+        }
+        
+        .upload-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+        .upload-text { color: var(--text-dim); margin-bottom: 0.5rem; }
+        .upload-hint { font-size: 0.75rem; color: var(--text-muted); }
+        
+        .input-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-bg">
+        <div class="starfield"></div>
+        <div class="nebula"></div>
+        <div class="scanlines"></div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="logo-cluster">
+                <div class="logo-icon">🔬</div>
+            </div>
+            <h1>DEFINITELYNOT.AI</h1>
+            <p class="tagline">AI Detection Suite • Text Fingerprinting • Image Analysis • Unicode Security</p>
+        </header>
+        
+        <nav class="tool-nav" role="tablist">
+            <button class="tool-tab active" data-tool="text" onclick="switchTab('text')">
+                <span>📝</span>
+                <span>TEXT</span>
+            </button>
+            <button class="tool-tab" data-tool="image" onclick="switchTab('image')">
+                <span>🖼️</span>
+                <span>IMAGE</span>
+            </button>
+            <button class="tool-tab" data-tool="lint" onclick="switchTab('lint')">
+                <span>🧹</span>
+                <span>LINT</span>
+            </button>
+        </nav>
+        
+        <div class="tool-panels">
+            <!-- TEXT PANEL -->
+            <div class="tool-panel active" id="panel-text">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">TEXT FINGERPRINTING</h2>
+                        <div class="stream-status">
+                            <div class="stream-dot"></div>
+                            <span>SSE Streaming</span>
+                        </div>
+                    </div>
+                    
+                    <textarea id="text-input" placeholder="Paste text to analyze for AI fingerprinting...">The rapid advancement of artificial intelligence has transformed numerous industries, from healthcare to finance. Machine learning algorithms now power recommendation systems, autonomous vehicles, and natural language processing applications. As these technologies continue to evolve, society must grapple with important ethical considerations surrounding privacy, bias, and the future of work.</textarea>
+                    <div class="input-meta">
+                        <span>412 characters</span>
+                        <span style="color: var(--human);">WebGPU: Active</span>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <button class="btn btn-primary" onclick="runDemo()">ANALYZE TEXT</button>
+                    </div>
+                </div>
+                
+                <div class="card" id="text-results">
+                    <div class="card-header">
+                        <h2 class="card-title">ANALYSIS RESULTS</h2>
+                        <span class="card-badge">Tier 1 + Tier 2</span>
+                    </div>
+                    
+                    <div class="result-verdict ai" id="text-verdict">
+                        <div class="verdict-label ai">AI GENERATED</div>
+                        <div class="verdict-confidence">87% confidence • Human: 13% • AI: 87%</div>
+                    </div>
+                    
+                    <h3 style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem;">FEATURE ANALYSIS</h3>
+                    <div class="feature-stream" id="text-features">
+                        <div class="feature-row">
+                            <span class="feature-name">Sentence Variance</span>
+                            <div class="feature-bar"><div class="feature-fill ai" style="width: 78%"></div></div>
+                            <span class="feature-value">0.421</span>
+                        </div>
+                        <div class="feature-row">
+                            <span class="feature-name">Compression</span>
+                            <div class="feature-bar"><div class="feature-fill ai" style="width: 72%"></div></div>
+                            <span class="feature-value">0.468</span>
+                        </div>
+                        <div class="feature-row">
+                            <span class="feature-name">Paragraph Variance</span>
+                            <div class="feature-bar"><div class="feature-fill ai" style="width: 65%"></div></div>
+                            <span class="feature-value">0.512</span>
+                        </div>
+                        <div class="feature-row">
+                            <span class="feature-name">List Usage</span>
+                            <div class="feature-bar"><div class="feature-fill human" style="width: 15%"></div></div>
+                            <span class="feature-value">0.000</span>
+                        </div>
+                        <div class="feature-row">
+                            <span class="feature-name">Vocabulary Diversity</span>
+                            <div class="feature-bar"><div class="feature-fill ai" style="width: 68%"></div></div>
+                            <span class="feature-value">0.492</span>
+                        </div>
+                        <div class="feature-row">
+                            <span class="feature-name">Semantic Tortuosity</span>
+                            <div class="feature-bar"><div class="feature-fill ai" style="width: 82%"></div></div>
+                            <span class="feature-value">0.847</span>
+                        </div>
+                    </div>
+                    
+                    <h3 style="font-size: 0.9rem; color: var(--text-dim); margin: 1.5rem 0 1rem;">MODEL FINGERPRINT</h3>
+                    <div class="fingerprint-grid">
+                        <div class="model-card">
+                            <div class="model-name">GPT-4o</div>
+                            <div class="model-prob">42%</div>
+                            <div class="model-bar"><div class="model-bar-fill" style="width: 42%"></div></div>
+                        </div>
+                        <div class="model-card">
+                            <div class="model-name">Claude</div>
+                            <div class="model-prob">28%</div>
+                            <div class="model-bar"><div class="model-bar-fill" style="width: 28%"></div></div>
+                        </div>
+                        <div class="model-card">
+                            <div class="model-name">Gemma-2</div>
+                            <div class="model-prob">15%</div>
+                            <div class="model-bar"><div class="model-bar-fill" style="width: 15%"></div></div>
+                        </div>
+                        <div class="model-card">
+                            <div class="model-name">Llama-3</div>
+                            <div class="model-prob">8%</div>
+                            <div class="model-bar"><div class="model-bar-fill" style="width: 8%"></div></div>
+                        </div>
+                        <div class="model-card">
+                            <div class="model-name">Human</div>
+                            <div class="model-prob" style="color: var(--human)">7%</div>
+                            <div class="model-bar"><div class="model-bar-fill" style="width: 7%; background: var(--human)"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- IMAGE PANEL -->
+            <div class="tool-panel" id="panel-image">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">IMAGE ANALYSIS</h2>
+                        <div class="stream-status">
+                            <div class="stream-dot"></div>
+                            <span>WebGPU Ready</span>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-zone">
+                        <div class="upload-icon">📸</div>
+                        <p class="upload-text"><strong>Drop image here</strong> or click to browse</p>
+                        <p class="upload-hint">PNG, JPG, WEBP • All processing runs locally via WebGPU</p>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <button class="btn btn-primary" style="background: linear-gradient(135deg, var(--accent-image), #7c3aed);">
+                            ANALYZE IMAGE
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- LINT PANEL -->
+            <div class="tool-panel" id="panel-lint">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">UNICODE SANITIZER</h2>
+                        <span class="card-badge">v2.3.1</span>
+                    </div>
+                    
+                    <textarea placeholder="Paste text to sanitize...
+
+Removes:
+• Invisible Unicode (zero-width chars, BiDi controls)
+• AI watermarks (variation selectors)
+• Homoglyph attacks (Cyrillic/Latin spoofing)
+• Trojan source attacks"></textarea>
+                    <div class="input-meta">
+                        <span>0 characters</span>
+                        <span>0 bytes</span>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <button class="btn btn-primary" style="background: linear-gradient(135deg, var(--accent-lint), #00cc6a);">
+                            SANITIZE TEXT
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="demo-section">
+            <h2 class="demo-title">HOW IT WORKS</h2>
+            
+            <div class="demo-cards">
+                <div class="demo-card" data-tool="text">
+                    <div class="demo-icon">📝</div>
+                    <h3>Text Fingerprinting</h3>
+                    <p>45-dimensional analysis identifies which AI model wrote the text with 98.6% accuracy.</p>
+                    <div class="demo-animation"></div>
+                </div>
+                
+                <div class="demo-card" data-tool="image">
+                    <div class="demo-icon">🖼️</div>
+                    <h3>Image Detection</h3>
+                    <p>Multiple ML models vote on whether an image is AI-generated or authentic.</p>
+                    <div class="demo-animation"></div>
+                </div>
+                
+                <div class="demo-card" data-tool="lint">
+                    <div class="demo-icon">🧹</div>
+                    <h3>Unicode Sanitizer</h3>
+                    <p>Removes invisible characters, AI watermarks, and homoglyph attacks.</p>
+                    <div class="demo-animation"></div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>
+                Part of the <a href="#">AURORA Protocol</a> •
+                <a href="#">Source</a> •
+                Built by <a href="#">Internet Universe</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        function switchTab(tool) {
+            document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[data-tool="${tool}"]`).classList.add('active');
+            document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(`panel-${tool}`).classList.add('active');
+        }
+        
+        function runDemo() {
+            // Animate features streaming in
+            const features = document.getElementById('text-features');
+            const rows = features.querySelectorAll('.feature-row');
+            rows.forEach((row, i) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(-20px)';
+                setTimeout(() => {
+                    row.style.transition = 'all 0.3s ease';
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateX(0)';
+                }, i * 100);
+            });
+        }
+    </script>
+</body>
+</html>
