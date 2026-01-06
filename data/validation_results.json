@@ -1,0 +1,278 @@
+{
+  "pairs": [
+    {
+      "id": "hf_2",
+      "prompt": "Roberta Karmel, First Woman Named to the S.E.C., Dies at 86",
+      "human_length": 1670,
+      "analyses": {
+        "gemma-2-9b": {
+          "final_score": 0.4456123775906033,
+          "phonetic_score": 0.40922558747069915,
+          "structural_score": 0.3017807038640372,
+          "semantic_score": 0.6205303072929382,
+          "confidence": null,
+          "num_pairs": 18
+        },
+        "mistral-7B": {
+          "final_score": 0.4742883684173707,
+          "phonetic_score": 0.4293566461818703,
+          "structural_score": 0.357235372154727,
+          "semantic_score": 0.6315088868141174,
+          "confidence": null,
+          "num_pairs": 31
+        }
+      }
+    },
+    {
+      "id": "hf_4",
+      "prompt": "Photos posted this week on @nytimes took our followers from New Hampshire to San Pedro la Laguna in Guatemala.",
+      "human_length": 393,
+      "analyses": {
+        "gemma-2-9b": {
+          "final_score": 0.41114416176622565,
+          "phonetic_score": 0.3386853325553016,
+          "structural_score": 0.3063311688311688,
+          "semantic_score": 0.5832021236419678,
+          "confidence": null,
+          "num_pairs": 11
+        },
+        "mistral-7B": {
+          "final_score": 0.4792130688826243,
+          "phonetic_score": 0.44814272359001595,
+          "structural_score": 0.3244047619047619,
+          "semantic_score": 0.6596246957778931,
+          "confidence": null,
+          "num_pairs": 36
+        }
+      }
+    },
+    {
+      "id": "hf_6",
+      "prompt": "A stroll through the architect\u2019s laid-back live/work space in Milan.",
+      "human_length": 1395,
+      "analyses": {
+        "gemma-2-9b": {
+          "final_score": 0.46612273824626,
+          "phonetic_score": 0.4223834959972824,
+          "structural_score": 0.3237715828233069,
+          "semantic_score": 0.6467399001121521,
+          "confidence": null,
+          "num_pairs": 29
+        },
+        "mistral-7B": {
+          "final_score": 0.40555664761499927,
+          "phonetic_score": 0.3743584448533216,
+          "structural_score": 0.28117784992784994,
+          "semantic_score": 0.556557834148407,
+          "confidence": null,
+          "num_pairs": 22
+        }
+      }
+    },
+    {
+      "id": "hf_8",
+      "prompt": "A violent and chaotic insurrection began Friday night as two bridges in Istanbul were seized by military forces. In the hours that followed, factions fought for control of government buildings in the capital, Ankara, and President Recep Tayyip Erdogan re-emerged in Istanbul. By the next day, hundreds were dead, and thousands of military personnel were rounded up as the coup faltered.",
+      "human_length": 894,
+      "analyses": {
+        "gemma-2-9b": {
+          "final_score": 0.43336703972174573,
+          "phonetic_score": 0.3975724409526971,
+          "structural_score": 0.2808413808413808,
+          "semantic_score": 0.6161485314369202,
+          "confidence": null,
+          "num_pairs": 26
+        },
+        "mistral-7B": {
+          "final_score": 0.4453376531600952,
+          "phonetic_score": 0.4236340608937804,
+          "structural_score": 0.3314224837662338,
+          "semantic_score": 0.5769676566123962,
+          "confidence": null,
+          "num_pairs": 16
+        }
+      }
+    },
+    {
+      "id": "hf_12",
+      "prompt": "Greece and More \u2014 Pictures of the Day",
+      "human_length": 254,
+      "analyses": {
+        "gemma-2-9b": {
+          "final_score": 0.4500051117860354,
+          "phonetic_score": 0.4468473614430489,
+          "structural_score": 0.279769536019536,
+          "semantic_score": 0.6182985901832581,
+          "confidence": null,
+          "num_pairs": 26
+        },
+        "mistral-7B": {
+          "final_score": 0.42132016085088253,
+          "phonetic_score": 0.39307992529832897,
+          "structural_score": 0.2557167658730159,
+          "semantic_score": 0.609462559223175,
+          "confidence": null,
+          "num_pairs": 16
+        }
+      }
+    },
+    {
+      "id": "hf_13",
+      "prompt": "The newest restaurant from the chefs Hemant Mathur and Shiva Natarajan darts around several regions of India.",
+      "human_length": 291,
+      "analyses": {
+        "gemma-2-9b": {
+          "final_score": 0.39514067471027375,
+          "phonetic_score": 0.36195540056285264,
+          "structural_score": 0.25663690476190476,
+          "semantic_score": 0.5617800354957581,
+          "confidence": null,
+          "num_pairs": 20
+        },
+        "mistral-7B": {
+          "final_score": 0.45218053284813375,
+          "phonetic_score": 0.4128116275738208,
+          "structural_score": 0.29618347338935574,
+          "semantic_score": 0.6418004035949707,
+          "confidence": null,
+          "num_pairs": 17
+        }
+      }
+    },
+    {
+      "id": "hf_16",
+      "prompt": "Times editors have removed this document.",
+      "human_length": 227,
+      "analyses": {
+        "gemma-2-9b": {
+          "final_score": 0.415637889634008,
+          "phonetic_score": 0.40183848099171426,
+          "structural_score": 0.2589714633192894,
+          "semantic_score": 0.5810900330543518,
+          "confidence": null,
+          "num_pairs": 23
+        },
+        "mistral-7B": {
+          "final_score": 0.4512461970249812,
+          "phonetic_score": 0.4479121765301676,
+          "structural_score": 0.27005070546737214,
+          "semantic_score": 0.6303483247756958,
+          "confidence": null,
+          "num_pairs": 18
+        }
+      }
+    },
+    {
+      "id": "hf_18",
+      "prompt": "What scientific questions do researchers hope to explore by studying carnivorous plants?",
+      "human_length": 1971,
+      "analyses": {
+        "gemma-2-9b": {
+          "final_score": 0.4414094943891872,
+          "phonetic_score": 0.4272635354031717,
+          "structural_score": 0.24169782237964058,
+          "semantic_score": 0.6489771008491516,
+          "confidence": null,
+          "num_pairs": 33
+        },
+        "mistral-7B": {
+          "final_score": 0.46138089522719383,
+          "phonetic_score": 0.4212994535632787,
+          "structural_score": 0.3098214285714286,
+          "semantic_score": 0.6473854780197144,
+          "confidence": null,
+          "num_pairs": 32
+        }
+      }
+    },
+    {
+      "id": "hf_20",
+      "prompt": "A Mediterranean-style house in San Francisco, a midcentury home in Los Angeles and a Southwestern retreat in Sonoma.",
+      "human_length": 367,
+      "analyses": {
+        "gemma-2-9b": {
+          "final_score": 0.3862502393977983,
+          "phonetic_score": 0.35172683542789596,
+          "structural_score": 0.27134353741496603,
+          "semantic_score": 0.531285285949707,
+          "confidence": null,
+          "num_pairs": 28
+        },
+        "mistral-7B": {
+          "final_score": 0.44965235590934755,
+          "phonetic_score": 0.4185665383704231,
+          "structural_score": 0.29773861059575346,
+          "semantic_score": 0.627269446849823,
+          "confidence": null,
+          "num_pairs": 35
+        }
+      }
+    },
+    {
+      "id": "hf_21",
+      "prompt": "Attention shifted away from Detroit after the bankruptcy. But for five high school students, life has moved on, sometimes in unexpected ways, as the city struggles to get back on its feet.",
+      "human_length": 1360,
+      "analyses": {
+        "gemma-2-9b": {
+          "final_score": 0.4534117421683143,
+          "phonetic_score": 0.42130500622714373,
+          "structural_score": 0.33220704948646124,
+          "semantic_score": 0.6022139191627502,
+          "confidence": null,
+          "num_pairs": 34
+        },
+        "mistral-7B": {
+          "final_score": 0.4892671870630841,
+          "phonetic_score": 0.44811228295341726,
+          "structural_score": 0.3428361689989597,
+          "semantic_score": 0.6713358163833618,
+          "confidence": null,
+          "num_pairs": 43
+        }
+      }
+    }
+  ],
+  "semantic_scores": [
+    0.6205303072929382,
+    0.6315088868141174,
+    0.5832021236419678,
+    0.6596246957778931,
+    0.6467399001121521,
+    0.556557834148407,
+    0.6161485314369202,
+    0.5769676566123962,
+    0.6182985901832581,
+    0.609462559223175,
+    0.5617800354957581,
+    0.6418004035949707,
+    0.5810900330543518,
+    0.6303483247756958,
+    0.6489771008491516,
+    0.6473854780197144,
+    0.531285285949707,
+    0.627269446849823,
+    0.6022139191627502,
+    0.6713358163833618
+  ],
+  "detection_scores": [
+    0.4456123775906033,
+    0.4742883684173707,
+    0.41114416176622565,
+    0.4792130688826243,
+    0.46612273824626,
+    0.40555664761499927,
+    0.43336703972174573,
+    0.4453376531600952,
+    0.4500051117860354,
+    0.42132016085088253,
+    0.39514067471027375,
+    0.45218053284813375,
+    0.415637889634008,
+    0.4512461970249812,
+    0.4414094943891872,
+    0.46138089522719383,
+    0.3862502393977983,
+    0.44965235590934755,
+    0.4534117421683143,
+    0.4892671870630841
+  ]
+}

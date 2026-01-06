@@ -1,0 +1,920 @@
+{
+  "metadata": {
+    "generated_at": "2026-01-04T06:00:24.651054",
+    "dataset": "samples_500.json",
+    "total_samples": 464,
+    "total_fingerprints": 3245,
+    "human_count": 464,
+    "ai_count": 2781,
+    "feature_count": 24,
+    "feature_names": [
+      "concept_jump_mean",
+      "concept_jump_variance",
+      "path_tortuosity",
+      "turning_angle_mean",
+      "return_rate",
+      "hedge_density",
+      "hedge_clustering",
+      "hedge_position_bias",
+      "confidence_mean",
+      "confidence_variance",
+      "confidence_arc",
+      "clause_length_mean",
+      "clause_length_std",
+      "clause_rhythm_autocorr",
+      "sentence_complexity",
+      "comma_density",
+      "semicolon_rate",
+      "parenthetical_rate",
+      "additive_rate",
+      "contrastive_rate",
+      "causal_rate",
+      "temporal_rate",
+      "exemplifying_rate",
+      "reformulating_rate"
+    ],
+    "extraction_time_seconds": 48.545689821243286,
+    "models": [
+      "GPT_4-o",
+      "HUMAN",
+      "accounts/yi-01-ai/models/yi-large",
+      "gemma-2-9b",
+      "llama-8B",
+      "mistral-7B",
+      "qwen-2-72B"
+    ],
+    "categories": [
+      "analysis",
+      "media",
+      "news",
+      "obituary",
+      "opinion"
+    ]
+  },
+  "classifier_comparison": {
+    "random_forest": {
+      "accuracy": 0.9411402157164869,
+      "precision": 0.9499652536483669,
+      "recall": 0.9830996044588277,
+      "f1_score": 0.9662484537904223,
+      "human_recognition": 0.6896551724137931,
+      "ai_detection": 0.9830996044588277,
+      "confusion_matrix": {
+        "true_negative": 320,
+        "false_positive": 144,
+        "false_negative": 47,
+        "true_positive": 2734
+      }
+    },
+    "gradient_boosting": {
+      "accuracy": 0.9426810477657935,
+      "precision": 0.9560632688927944,
+      "recall": 0.9780654440848615,
+      "f1_score": 0.9669392108069677,
+      "human_recognition": 0.7306034482758621,
+      "ai_detection": 0.9780654440848615,
+      "confusion_matrix": {
+        "true_negative": 339,
+        "false_positive": 125,
+        "false_negative": 61,
+        "true_positive": 2720
+      }
+    },
+    "logistic_regression": {
+      "accuracy": 0.9355932203389831,
+      "precision": 0.9480836236933798,
+      "recall": 0.9784250269687162,
+      "f1_score": 0.9630153955052203,
+      "human_recognition": 0.6788793103448276,
+      "ai_detection": 0.9784250269687162,
+      "confusion_matrix": {
+        "true_negative": 315,
+        "false_positive": 149,
+        "false_negative": 60,
+        "true_positive": 2721
+      }
+    },
+    "svm_rbf": {
+      "accuracy": 0.9405238828967643,
+      "precision": 0.9493055555555555,
+      "recall": 0.9830996044588277,
+      "f1_score": 0.9659070835541423,
+      "human_recognition": 0.6853448275862069,
+      "ai_detection": 0.9830996044588277,
+      "confusion_matrix": {
+        "true_negative": 318,
+        "false_positive": 146,
+        "false_negative": 47,
+        "true_positive": 2734
+      }
+    },
+    "mlp_neural_net": {
+      "accuracy": 0.9411402157164869,
+      "precision": 0.9631616595135909,
+      "recall": 0.9683567062207838,
+      "f1_score": 0.9657521965214273,
+      "human_recognition": 0.7780172413793104,
+      "ai_detection": 0.9683567062207838,
+      "confusion_matrix": {
+        "true_negative": 361,
+        "false_positive": 103,
+        "false_negative": 88,
+        "true_positive": 2693
+      }
+    },
+    "ensemble_rf_gb": {
+      "accuracy": 0.9442218798151002,
+      "precision": 0.9551820728291317,
+      "recall": 0.9809421071556994,
+      "f1_score": 0.9678907220152564,
+      "human_recognition": 0.7241379310344828,
+      "ai_detection": 0.9809421071556994,
+      "confusion_matrix": {
+        "true_negative": 336,
+        "false_positive": 128,
+        "false_negative": 53,
+        "true_positive": 2728
+      }
+    }
+  },
+  "per_model_results": {
+    "GPT_4-o": {
+      "total_samples": 464,
+      "correctly_classified": 464,
+      "detection_rate": 1.0
+    },
+    "HUMAN": {
+      "total_samples": 464,
+      "correctly_classified": 320,
+      "recognition_rate": 0.6896551724137931
+    },
+    "accounts/yi-01-ai/models/yi-large": {
+      "total_samples": 464,
+      "correctly_classified": 448,
+      "detection_rate": 0.9655172413793104
+    },
+    "gemma-2-9b": {
+      "total_samples": 464,
+      "correctly_classified": 445,
+      "detection_rate": 0.959051724137931
+    },
+    "llama-8B": {
+      "total_samples": 461,
+      "correctly_classified": 456,
+      "detection_rate": 0.9891540130151844
+    },
+    "mistral-7B": {
+      "total_samples": 464,
+      "correctly_classified": 462,
+      "detection_rate": 0.9956896551724138
+    },
+    "qwen-2-72B": {
+      "total_samples": 464,
+      "correctly_classified": 459,
+      "detection_rate": 0.9892241379310345
+    }
+  },
+  "per_category_results": {
+    "analysis": {
+      "total_samples": 1049,
+      "human_samples": 150,
+      "ai_samples": 899,
+      "accuracy": 0.9180171591992373,
+      "human_recognition": 0.56,
+      "ai_detection": 0.9777530589543938
+    },
+    "media": {
+      "total_samples": 525,
+      "human_samples": 75,
+      "ai_samples": 450,
+      "accuracy": 0.9619047619047619,
+      "human_recognition": 0.8133333333333334,
+      "ai_detection": 0.9866666666666667
+    },
+    "news": {
+      "total_samples": 1224,
+      "human_samples": 175,
+      "ai_samples": 1049,
+      "accuracy": 0.9436274509803921,
+      "human_recognition": 0.6857142857142857,
+      "ai_detection": 0.9866539561487131
+    },
+    "obituary": {
+      "total_samples": 202,
+      "human_samples": 29,
+      "ai_samples": 173,
+      "accuracy": 0.8960396039603961,
+      "human_recognition": 0.27586206896551724,
+      "ai_detection": 1.0
+    },
+    "opinion": {
+      "total_samples": 245,
+      "human_samples": 35,
+      "ai_samples": 210,
+      "accuracy": 0.9428571428571428,
+      "human_recognition": 0.7142857142857143,
+      "ai_detection": 0.9809523809523809
+    }
+  },
+  "feature_importance": [
+    {
+      "rank": 1,
+      "feature": "path_tortuosity",
+      "layer": "trajectory",
+      "importance": 0.18228712399072053
+    },
+    {
+      "rank": 2,
+      "feature": "sentence_complexity",
+      "layer": "syntactic",
+      "importance": 0.11500644436275637
+    },
+    {
+      "rank": 3,
+      "feature": "temporal_rate",
+      "layer": "transitions",
+      "importance": 0.06680714055897514
+    },
+    {
+      "rank": 4,
+      "feature": "contrastive_rate",
+      "layer": "transitions",
+      "importance": 0.05658632556466288
+    },
+    {
+      "rank": 5,
+      "feature": "parenthetical_rate",
+      "layer": "syntactic",
+      "importance": 0.053736745714941955
+    },
+    {
+      "rank": 6,
+      "feature": "clause_length_std",
+      "layer": "syntactic",
+      "importance": 0.047702893343550636
+    },
+    {
+      "rank": 7,
+      "feature": "turning_angle_mean",
+      "layer": "trajectory",
+      "importance": 0.04669431801096665
+    },
+    {
+      "rank": 8,
+      "feature": "comma_density",
+      "layer": "syntactic",
+      "importance": 0.04318054032921688
+    },
+    {
+      "rank": 9,
+      "feature": "concept_jump_variance",
+      "layer": "trajectory",
+      "importance": 0.0418329891917441
+    },
+    {
+      "rank": 10,
+      "feature": "causal_rate",
+      "layer": "transitions",
+      "importance": 0.03814910382961156
+    },
+    {
+      "rank": 11,
+      "feature": "confidence_arc",
+      "layer": "epistemic",
+      "importance": 0.034715368459343574
+    },
+    {
+      "rank": 12,
+      "feature": "clause_rhythm_autocorr",
+      "layer": "syntactic",
+      "importance": 0.033817628868764986
+    },
+    {
+      "rank": 13,
+      "feature": "confidence_variance",
+      "layer": "epistemic",
+      "importance": 0.030630513493620542
+    },
+    {
+      "rank": 14,
+      "feature": "additive_rate",
+      "layer": "transitions",
+      "importance": 0.02962910563738841
+    },
+    {
+      "rank": 15,
+      "feature": "clause_length_mean",
+      "layer": "syntactic",
+      "importance": 0.0295253039630898
+    },
+    {
+      "rank": 16,
+      "feature": "concept_jump_mean",
+      "layer": "trajectory",
+      "importance": 0.02930843914335539
+    },
+    {
+      "rank": 17,
+      "feature": "confidence_mean",
+      "layer": "epistemic",
+      "importance": 0.02659534415743089
+    },
+    {
+      "rank": 18,
+      "feature": "exemplifying_rate",
+      "layer": "transitions",
+      "importance": 0.01916313189460789
+    },
+    {
+      "rank": 19,
+      "feature": "hedge_position_bias",
+      "layer": "epistemic",
+      "importance": 0.01796462768308508
+    },
+    {
+      "rank": 20,
+      "feature": "return_rate",
+      "layer": "trajectory",
+      "importance": 0.017397630693925144
+    },
+    {
+      "rank": 21,
+      "feature": "hedge_density",
+      "layer": "epistemic",
+      "importance": 0.017186564994731666
+    },
+    {
+      "rank": 22,
+      "feature": "semicolon_rate",
+      "layer": "syntactic",
+      "importance": 0.011822430718190724
+    },
+    {
+      "rank": 23,
+      "feature": "hedge_clustering",
+      "layer": "epistemic",
+      "importance": 0.007067262265363011
+    },
+    {
+      "rank": 24,
+      "feature": "reformulating_rate",
+      "layer": "transitions",
+      "importance": 0.0031930231299562607
+    }
+  ],
+  "layer_contribution": {
+    "trajectory": {
+      "feature_count": 5,
+      "total_importance": 0.3175205010307118,
+      "average_importance": 0.06350410020614236,
+      "contribution_pct": 31.752050103071177
+    },
+    "epistemic": {
+      "feature_count": 6,
+      "total_importance": 0.1341596810535748,
+      "average_importance": 0.022359946842262463,
+      "contribution_pct": 13.415968105357479
+    },
+    "syntactic": {
+      "feature_count": 7,
+      "total_importance": 0.33479198730051135,
+      "average_importance": 0.04782742675721591,
+      "contribution_pct": 33.47919873005114
+    },
+    "transitions": {
+      "feature_count": 6,
+      "total_importance": 0.2135278306152021,
+      "average_importance": 0.03558797176920035,
+      "contribution_pct": 21.35278306152021
+    }
+  },
+  "effect_sizes": [
+    {
+      "feature": "path_tortuosity",
+      "layer": "trajectory",
+      "human_mean": 21.428845336902107,
+      "human_std": 14.875270516533146,
+      "ai_mean": 47.41866244146131,
+      "ai_std": 15.370997973278559,
+      "cohens_d": -1.7183162340809468,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "additive_rate",
+      "layer": "transitions",
+      "human_mean": 0.041802091930968566,
+      "human_std": 0.09529775478166241,
+      "ai_mean": 0.14667042538393432,
+      "ai_std": 0.13631041595481436,
+      "cohens_d": -0.8916944671270401,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "temporal_rate",
+      "layer": "transitions",
+      "human_mean": 0.2772619447949563,
+      "human_std": 0.3237434565727639,
+      "ai_mean": 0.10779364676768455,
+      "ai_std": 0.13717338407682292,
+      "cohens_d": 0.6816287803676077,
+      "direction": "human_higher"
+    },
+    {
+      "feature": "contrastive_rate",
+      "layer": "transitions",
+      "human_mean": 0.14771124553091833,
+      "human_std": 0.2337881152636525,
+      "ai_mean": 0.2569404605866196,
+      "ai_std": 0.16909544988374747,
+      "cohens_d": -0.5353789452415455,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "comma_density",
+      "layer": "syntactic",
+      "human_mean": 4.925944257286031,
+      "human_std": 2.8935876025525737,
+      "ai_mean": 6.149034314869962,
+      "ai_std": 2.1091481105572982,
+      "cohens_d": -0.4830660004134403,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "causal_rate",
+      "layer": "transitions",
+      "human_mean": 0.22149085705575575,
+      "human_std": 0.2732600900835158,
+      "ai_mean": 0.3331013462434252,
+      "ai_std": 0.1924108530384722,
+      "cohens_d": -0.47228810306525215,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "confidence_arc",
+      "layer": "epistemic",
+      "human_mean": -0.006282525238966619,
+      "human_std": 0.08326264117712025,
+      "ai_mean": 0.029021484930625195,
+      "ai_std": 0.07229636793197508,
+      "cohens_d": -0.4527749476806672,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "sentence_complexity",
+      "layer": "syntactic",
+      "human_mean": 2.4674816933264827,
+      "human_std": 1.0812017039173536,
+      "ai_mean": 3.5151345448283013,
+      "ai_std": 3.1203236890661485,
+      "cohens_d": -0.4486537043355864,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "reformulating_rate",
+      "layer": "transitions",
+      "human_mean": 0.005218950803683109,
+      "human_std": 0.02865705740145747,
+      "ai_mean": 0.024526495691612176,
+      "ai_std": 0.05616167831437374,
+      "cohens_d": -0.433065674209578,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "return_rate",
+      "layer": "trajectory",
+      "human_mean": 0.02915032217664506,
+      "human_std": 0.08149207506319961,
+      "ai_mean": 0.0045294824442810066,
+      "ai_std": 0.01762283142880932,
+      "cohens_d": 0.4176167343911649,
+      "direction": "human_higher"
+    },
+    {
+      "feature": "clause_length_std",
+      "layer": "syntactic",
+      "human_mean": 7.2432824376366804,
+      "human_std": 7.542177167170413,
+      "ai_mean": 4.946080987686571,
+      "ai_std": 2.6286164703731174,
+      "cohens_d": 0.4067466221468904,
+      "direction": "human_higher"
+    },
+    {
+      "feature": "confidence_variance",
+      "layer": "epistemic",
+      "human_mean": 0.016993204193438635,
+      "human_std": 0.02148846923370952,
+      "ai_mean": 0.02364587715744899,
+      "ai_std": 0.01936606132967249,
+      "cohens_d": -0.3252375562905319,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "clause_length_mean",
+      "layer": "syntactic",
+      "human_mean": 9.472243109068986,
+      "human_std": 6.048611773670987,
+      "ai_mean": 8.01978177007421,
+      "ai_std": 3.0108330416288163,
+      "cohens_d": 0.30401519297103274,
+      "direction": "human_higher"
+    },
+    {
+      "feature": "hedge_clustering",
+      "layer": "epistemic",
+      "human_mean": 0.07807573167623799,
+      "human_std": 0.181931625139151,
+      "ai_mean": 0.13352372571921822,
+      "ai_std": 0.20841757521812246,
+      "cohens_d": -0.2834425940713098,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "turning_angle_mean",
+      "layer": "trajectory",
+      "human_mean": 2.0233737050218044,
+      "human_std": 0.4115471970662763,
+      "ai_mean": 2.0944324041750635,
+      "ai_std": 0.007133665413112772,
+      "cohens_d": -0.2441447378620771,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "parenthetical_rate",
+      "layer": "syntactic",
+      "human_mean": 0.08600671713481317,
+      "human_std": 0.15113952443645176,
+      "ai_mean": 0.050691986526099915,
+      "ai_std": 0.2633202261298884,
+      "cohens_d": 0.16449431794848682,
+      "direction": "human_higher"
+    },
+    {
+      "feature": "exemplifying_rate",
+      "layer": "transitions",
+      "human_mean": 0.0931528409182007,
+      "human_std": 0.1941691087943628,
+      "ai_mean": 0.11766305862409916,
+      "ai_std": 0.13018966858599673,
+      "cohens_d": -0.14827336350810696,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "confidence_mean",
+      "layer": "epistemic",
+      "human_mean": 0.5137352062315648,
+      "human_std": 0.061179854680477555,
+      "ai_mean": 0.5226527562324601,
+      "ai_std": 0.06645716923763767,
+      "cohens_d": -0.13961368180999856,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "hedge_density",
+      "layer": "epistemic",
+      "human_mean": 0.29583685643584506,
+      "human_std": 0.4930433845425749,
+      "ai_mean": 0.3626831353618593,
+      "ai_std": 0.4684698215298094,
+      "cohens_d": -0.13899852487621192,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "semicolon_rate",
+      "layer": "syntactic",
+      "human_mean": 0.014718894565589153,
+      "human_std": 0.05794621727984959,
+      "ai_mean": 0.009670427149623831,
+      "ai_std": 0.02691593382508979,
+      "cohens_d": 0.1117443917231753,
+      "direction": "human_higher"
+    },
+    {
+      "feature": "concept_jump_mean",
+      "layer": "trajectory",
+      "human_mean": 27.555739715336816,
+      "human_std": 2.2870509811146795,
+      "ai_mean": 27.6975239056153,
+      "ai_std": 0.19680669124400768,
+      "cohens_d": -0.08735039989788952,
+      "direction": "ai_higher"
+    },
+    {
+      "feature": "hedge_position_bias",
+      "layer": "epistemic",
+      "human_mean": 0.5138834604386491,
+      "human_std": 0.13786069004523502,
+      "ai_mean": 0.5059116432185183,
+      "ai_std": 0.16888327684519058,
+      "cohens_d": 0.0517132140650724,
+      "direction": "human_higher"
+    },
+    {
+      "feature": "concept_jump_variance",
+      "layer": "trajectory",
+      "human_mean": 1.1867903599663099,
+      "human_std": 6.723659118326368,
+      "ai_mean": 0.966148561896782,
+      "ai_std": 0.3646341378688628,
+      "cohens_d": 0.04634035899287297,
+      "direction": "human_higher"
+    },
+    {
+      "feature": "clause_rhythm_autocorr",
+      "layer": "syntactic",
+      "human_mean": -0.0363206382758218,
+      "human_std": 0.23890914348204187,
+      "ai_mean": -0.040373694739055534,
+      "ai_std": 0.14493083728039527,
+      "cohens_d": 0.020512600569667496,
+      "direction": "human_higher"
+    }
+  ],
+  "model_centroids": {
+    "GPT_4-o": {
+      "sample_count": 464,
+      "centroid": {
+        "concept_jump_mean": 27.700408287097506,
+        "concept_jump_variance": 0.9592124197080317,
+        "path_tortuosity": 64.87982200872456,
+        "turning_angle_mean": 2.0945051732670117,
+        "return_rate": 0.0008348759361814719,
+        "hedge_density": 0.3784121222060014,
+        "hedge_clustering": 0.17419337161559073,
+        "hedge_position_bias": 0.4766528545822145,
+        "confidence_mean": 0.5080441311405992,
+        "confidence_variance": 0.024817104610090422,
+        "confidence_arc": 0.0293253034553733,
+        "clause_length_mean": 7.371052472495022,
+        "clause_length_std": 4.46051638952171,
+        "clause_rhythm_autocorr": -0.022032082700527065,
+        "sentence_complexity": 2.806337703453514,
+        "comma_density": 5.508665402287363,
+        "semicolon_rate": 0.017503488776915897,
+        "parenthetical_rate": 0.16193876608728439,
+        "additive_rate": 0.16124189634196415,
+        "contrastive_rate": 0.22334991680914565,
+        "causal_rate": 0.38314639094259195,
+        "temporal_rate": 0.08285624696710368,
+        "exemplifying_rate": 0.10787584755472941,
+        "reformulating_rate": 0.013512460005155453
+      }
+    },
+    "HUMAN": {
+      "sample_count": 464,
+      "centroid": {
+        "concept_jump_mean": 27.55573971533684,
+        "concept_jump_variance": 1.1867903599663108,
+        "path_tortuosity": 21.4288453369021,
+        "turning_angle_mean": 2.0233737050218057,
+        "return_rate": 0.029150322176645052,
+        "hedge_density": 0.295836856435845,
+        "hedge_clustering": 0.07807573167623795,
+        "hedge_position_bias": 0.5138834604386492,
+        "confidence_mean": 0.5137352062315652,
+        "confidence_variance": 0.016993204193438624,
+        "confidence_arc": -0.006282525238966617,
+        "clause_length_mean": 9.472243109068994,
+        "clause_length_std": 7.2432824376366804,
+        "clause_rhythm_autocorr": -0.03632063827582179,
+        "sentence_complexity": 2.467481693326483,
+        "comma_density": 4.925944257286036,
+        "semicolon_rate": 0.014718894565589152,
+        "parenthetical_rate": 0.0860067171348132,
+        "additive_rate": 0.04180209193096855,
+        "contrastive_rate": 0.14771124553091838,
+        "causal_rate": 0.22149085705575575,
+        "temporal_rate": 0.27726194479495647,
+        "exemplifying_rate": 0.0931528409182007,
+        "reformulating_rate": 0.005218950803683109
+      }
+    },
+    "accounts/yi-01-ai/models/yi-large": {
+      "sample_count": 464,
+      "centroid": {
+        "concept_jump_mean": 27.677296960164817,
+        "concept_jump_variance": 0.9420604052520475,
+        "path_tortuosity": 48.445362840129334,
+        "turning_angle_mean": 2.094350570510167,
+        "return_rate": 0.0016440581629318233,
+        "hedge_density": 0.5083816193214777,
+        "hedge_clustering": 0.15599528905840707,
+        "hedge_position_bias": 0.501421087640676,
+        "confidence_mean": 0.5154994251732937,
+        "confidence_variance": 0.02804210794708029,
+        "confidence_arc": 0.030794803943895187,
+        "clause_length_mean": 7.5395474139906025,
+        "clause_length_std": 4.459988660193074,
+        "clause_rhythm_autocorr": -0.058115824870719174,
+        "sentence_complexity": 2.968292618146772,
+        "comma_density": 6.127517454922857,
+        "semicolon_rate": 0.013932988509322473,
+        "parenthetical_rate": 0.01994036840329399,
+        "additive_rate": 0.15596489057563015,
+        "contrastive_rate": 0.24556530078365219,
+        "causal_rate": 0.3460925142913053,
+        "temporal_rate": 0.07852856681404388,
+        "exemplifying_rate": 0.13827905079592934,
+        "reformulating_rate": 0.024793814670474618
+      }
+    },
+    "gemma-2-9b": {
+      "sample_count": 464,
+      "centroid": {
+        "concept_jump_mean": 27.70535011381271,
+        "concept_jump_variance": 0.9585522433531275,
+        "path_tortuosity": 39.06336787510499,
+        "turning_angle_mean": 2.0947790154575645,
+        "return_rate": 0.0010853445468749594,
+        "hedge_density": 0.3652612298642188,
+        "hedge_clustering": 0.12800042869957684,
+        "hedge_position_bias": 0.5209969780877454,
+        "confidence_mean": 0.5185422673095664,
+        "confidence_variance": 0.024406199473177667,
+        "confidence_arc": 0.020968656844656094,
+        "clause_length_mean": 7.392400382567508,
+        "clause_length_std": 4.478828540705086,
+        "clause_rhythm_autocorr": -0.029399214102349223,
+        "sentence_complexity": 2.836888427991715,
+        "comma_density": 6.655892667876202,
+        "semicolon_rate": 0.011029434850739376,
+        "parenthetical_rate": 0.03630554330422397,
+        "additive_rate": 0.09855261283538425,
+        "contrastive_rate": 0.3307223024839815,
+        "causal_rate": 0.2566751750746587,
+        "temporal_rate": 0.1357557890377493,
+        "exemplifying_rate": 0.13931536317225388,
+        "reformulating_rate": 0.010961516016663078
+      }
+    },
+    "llama-8B": {
+      "sample_count": 461,
+      "centroid": {
+        "concept_jump_mean": 27.701800411807678,
+        "concept_jump_variance": 0.993246620843288,
+        "path_tortuosity": 43.350081446190245,
+        "turning_angle_mean": 2.0943743322896937,
+        "return_rate": 0.008315184129071162,
+        "hedge_density": 0.3093011240373857,
+        "hedge_clustering": 0.11924431395617786,
+        "hedge_position_bias": 0.5113410864919904,
+        "confidence_mean": 0.5325233204229627,
+        "confidence_variance": 0.017902857238120323,
+        "confidence_arc": 0.026982604873441594,
+        "clause_length_mean": 10.59487363067277,
+        "clause_length_std": 7.137013440036492,
+        "clause_rhythm_autocorr": -0.04108963293986177,
+        "sentence_complexity": 6.484134502000166,
+        "comma_density": 5.45278809486434,
+        "semicolon_rate": 0.0016347673671569093,
+        "parenthetical_rate": 0.045872914808938625,
+        "additive_rate": 0.13472441597155624,
+        "contrastive_rate": 0.25779289272008177,
+        "causal_rate": 0.3283273720348764,
+        "temporal_rate": 0.11751556662299968,
+        "exemplifying_rate": 0.1343952588160492,
+        "reformulating_rate": 0.02290609904051131
+      }
+    },
+    "mistral-7B": {
+      "sample_count": 464,
+      "centroid": {
+        "concept_jump_mean": 27.703793808591232,
+        "concept_jump_variance": 0.9729708236276704,
+        "path_tortuosity": 45.60263717541152,
+        "turning_angle_mean": 2.0941712830881376,
+        "return_rate": 0.00814455240109131,
+        "hedge_density": 0.3030050509992355,
+        "hedge_clustering": 0.12131348153529885,
+        "hedge_position_bias": 0.5109013804570781,
+        "confidence_mean": 0.5287890781103465,
+        "confidence_variance": 0.022836398097015972,
+        "confidence_arc": 0.03416820896233155,
+        "clause_length_mean": 7.40823064624398,
+        "clause_length_std": 4.4468553359976495,
+        "clause_rhythm_autocorr": -0.049501869339282516,
+        "sentence_complexity": 3.0420609963186576,
+        "comma_density": 6.81637097108755,
+        "semicolon_rate": 0.00766061103980481,
+        "parenthetical_rate": 0.020805339264210423,
+        "additive_rate": 0.15100263598641656,
+        "contrastive_rate": 0.23516041961343184,
+        "causal_rate": 0.37499618540109314,
+        "temporal_rate": 0.11543766843889627,
+        "exemplifying_rate": 0.08815898940411725,
+        "reformulating_rate": 0.03308892874225217
+      }
+    },
+    "qwen-2-72B": {
+      "sample_count": 464,
+      "centroid": {
+        "concept_jump_mean": 27.696521502042405,
+        "concept_jump_variance": 0.9710240615638537,
+        "path_tortuosity": 43.14439782263426,
+        "turning_angle_mean": 2.0944136749730355,
+        "return_rate": 0.007177356009049034,
+        "hedge_density": 0.3113925234282394,
+        "hedge_clustering": 0.1023031456673066,
+        "hedge_position_bias": 0.5141915762105027,
+        "confidence_mean": 0.5325821335409484,
+        "confidence_variance": 0.023833463984903273,
+        "confidence_arc": 0.03187614908989062,
+        "clause_length_mean": 7.829235375298227,
+        "clause_length_std": 4.707449071210769,
+        "clause_rhythm_autocorr": -0.04210817339237443,
+        "sentence_complexity": 2.9722891414717294,
+        "comma_density": 6.328469706241779,
+        "semicolon_rate": 0.006209317656934116,
+        "parenthetical_rate": 0.019257829497373386,
+        "additive_rate": 0.17845886346283446,
+        "contrastive_rate": 0.24905744252408196,
+        "causal_rate": 0.309339573503471,
+        "temporal_rate": 0.11673089996575904,
+        "exemplifying_rate": 0.09806202433034404,
+        "reformulating_rate": 0.041885678972130774
+      }
+    }
+  },
+  "threshold_analysis": [
+    {
+      "threshold": 0.3,
+      "accuracy": 0.9183359013867488,
+      "human_recognition": 0.4504310344827586,
+      "ai_detection": 0.9964041711614527,
+      "f1_score": 0.9543654210435681,
+      "balanced_accuracy": 0.7234176028221057
+    },
+    {
+      "threshold": 0.35,
+      "accuracy": 0.9257318952234207,
+      "human_recognition": 0.5150862068965517,
+      "ai_detection": 0.9942466738583243,
+      "f1_score": 0.95823947322821,
+      "balanced_accuracy": 0.754666440377438
+    },
+    {
+      "threshold": 0.39999999999999997,
+      "accuracy": 0.9315870570107858,
+      "human_recognition": 0.5775862068965517,
+      "ai_detection": 0.9906508450197771,
+      "f1_score": 0.9612700628053036,
+      "balanced_accuracy": 0.7841185259581644
+    },
+    {
+      "threshold": 0.44999999999999996,
+      "accuracy": 0.9368258859784283,
+      "human_recognition": 0.6400862068965517,
+      "ai_detection": 0.9863358504135203,
+      "f1_score": 0.9639782112106835,
+      "balanced_accuracy": 0.813211028655036
+    },
+    {
+      "threshold": 0.49999999999999994,
+      "accuracy": 0.9402157164869029,
+      "human_recognition": 0.6788793103448276,
+      "ai_detection": 0.9838187702265372,
+      "f1_score": 0.9657606777267914,
+      "balanced_accuracy": 0.8313490402856825
+    },
+    {
+      "threshold": 0.5499999999999999,
+      "accuracy": 0.9439137134052388,
+      "human_recognition": 0.7241379310344828,
+      "ai_detection": 0.9805825242718447,
+      "f1_score": 0.9677075940383251,
+      "balanced_accuracy": 0.8523602276531637
+    },
+    {
+      "threshold": 0.5999999999999999,
+      "accuracy": 0.9463790446841295,
+      "human_recognition": 0.771551724137931,
+      "ai_detection": 0.9755483638978785,
+      "f1_score": 0.9689285714285715,
+      "balanced_accuracy": 0.8735500440179047
+    },
+    {
+      "threshold": 0.6499999999999999,
+      "accuracy": 0.9417565485362096,
+      "human_recognition": 0.7974137931034483,
+      "ai_detection": 0.9658396260338008,
+      "f1_score": 0.96601330695918,
+      "balanced_accuracy": 0.8816267095686245
+    },
+    {
+      "threshold": 0.7,
+      "accuracy": 0.9340523882896764,
+      "human_recognition": 0.8275862068965517,
+      "ai_detection": 0.9518158935634664,
+      "f1_score": 0.9611474219317356,
+      "balanced_accuracy": 0.8897010502300091
+    },
+    {
+      "threshold": 0.7499999999999999,
+      "accuracy": 0.9223420647149461,
+      "human_recognition": 0.8685344827586207,
+      "ai_detection": 0.9313196691837469,
+      "f1_score": 0.9536082474226805,
+      "balanced_accuracy": 0.8999270759711837
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "total_features": 25,
+  "strong_features": 7,
+  "results": [
+    {
+      "feature": "conn_and_but_ratio",
+      "d": -1.0051302958903043,
+      "abs_d": 1.0051302958903043,
+      "human_mean": 3.705603448275862,
+      "ai_mean": 9.588557896217011,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "punct_question_rate",
+      "d": 0.9975303127545868,
+      "abs_d": 0.9975303127545868,
+      "human_mean": 0.09908603177585676,
+      "ai_mean": 0.01939496189617982,
+      "direction": "Human > AI"
+    },
+    {
+      "feature": "conn_coord_subord_ratio",
+      "d": -0.9953398878782538,
+      "abs_d": 0.9953398878782538,
+      "human_mean": 4.592118226600985,
+      "ai_mean": 11.508778336610051,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "punct_em_dash_per_100",
+      "d": 0.6784728556964721,
+      "abs_d": 0.6784728556964721,
+      "human_mean": 0.24489384001489398,
+      "ai_mean": 0.07081663109565092,
+      "direction": "Human > AI"
+    },
+    {
+      "feature": "punct_em_dash_rate",
+      "d": 0.6340892554665714,
+      "abs_d": 0.6340892554665714,
+      "human_mean": 0.05664908658610345,
+      "ai_mean": 0.014555253594894485,
+      "direction": "Human > AI"
+    },
+    {
+      "feature": "punct_colon_rate",
+      "d": 0.6087524304547016,
+      "abs_d": 0.6087524304547016,
+      "human_mean": 0.48690196944581965,
+      "ai_mean": 0.14062514405378196,
+      "direction": "Human > AI"
+    },
+    {
+      "feature": "trans_initial_total_rate",
+      "d": -0.5182277977562145,
+      "abs_d": 0.5182277977562145,
+      "human_mean": 0.00016578249336870028,
+      "ai_mean": 0.01723751981588757,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "trans_however_rate",
+      "d": -0.47518981177419733,
+      "abs_d": 0.47518981177419733,
+      "human_mean": 0.00016578249336870028,
+      "ai_mean": 0.014263869450426344,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "punct_ellipsis_rate",
+      "d": 0.4157698910746045,
+      "abs_d": 0.4157698910746045,
+      "human_mean": 0.008104519276702003,
+      "ai_mean": 0.0006807252695304427,
+      "direction": "Human > AI"
+    },
+    {
+      "feature": "conn_because_rate",
+      "d": 0.31234640300897526,
+      "abs_d": 0.31234640300897526,
+      "human_mean": 0.004703012488666209,
+      "ai_mean": 0.0011872959352939043,
+      "direction": "Human > AI"
+    },
+    {
+      "feature": "conn_and_rate",
+      "d": -0.29971627914389504,
+      "abs_d": 0.29971627914389504,
+      "human_mean": 0.47765324968785267,
+      "ai_mean": 1.1908780760320488,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "conn_while_rate",
+      "d": -0.224481043856147,
+      "abs_d": 0.224481043856147,
+      "human_mean": 0.012023985275675563,
+      "ai_mean": 0.06593170161040204,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "conn_but_rate",
+      "d": -0.19676910651542004,
+      "abs_d": 0.19676910651542004,
+      "human_mean": 0.036407480001589526,
+      "ai_mean": 0.08313112099351502,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "trans_additionally_rate",
+      "d": -0.19065873299312905,
+      "abs_d": 0.19065873299312905,
+      "human_mean": 0.0,
+      "ai_mean": 0.0016671386911295742,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "punct_semicolon_per_100",
+      "d": 0.17912839124836236,
+      "abs_d": 0.17912839124836236,
+      "human_mean": 0.06608098906122614,
+      "ai_mean": 0.04135532769304815,
+      "direction": "Human > AI"
+    },
+    {
+      "feature": "conn_or_rate",
+      "d": -0.15080968264438255,
+      "abs_d": 0.15080968264438255,
+      "human_mean": 0.04209851529290757,
+      "ai_mean": 0.101028749521409,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "trans_moreover_rate",
+      "d": -0.11651344273737615,
+      "abs_d": 0.11651344273737615,
+      "human_mean": 0.0,
+      "ai_mean": 0.0005232164403918928,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "punct_semicolon_rate",
+      "d": 0.11587950584249662,
+      "abs_d": 0.11587950584249662,
+      "human_mean": 0.012231589000230048,
+      "ai_mean": 0.00885175161230998,
+      "direction": "Human > AI"
+    },
+    {
+      "feature": "trans_furthermore_rate",
+      "d": -0.1089476293452484,
+      "abs_d": 0.1089476293452484,
+      "human_mean": 0.0,
+      "ai_mean": 0.0004276979656261069,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "trans_therefore_rate",
+      "d": -0.04473293789126147,
+      "abs_d": 0.04473293789126147,
+      "human_mean": 0.0,
+      "ai_mean": 0.00012374850738376212,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "punct_exclamation_rate",
+      "d": -0.044069502022315916,
+      "abs_d": 0.044069502022315916,
+      "human_mean": 0.005032543749679847,
+      "ai_mean": 0.006219063781644792,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "trans_thus_rate",
+      "d": -0.040739854465034586,
+      "abs_d": 0.040739854465034586,
+      "human_mean": 0.0,
+      "ai_mean": 3.93082923720319e-05,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "conn_if_rate",
+      "d": -0.03842680639246979,
+      "abs_d": 0.03842680639246979,
+      "human_mean": 0.0194974261555902,
+      "ai_mean": 0.025888868795371712,
+      "direction": "AI > Human"
+    },
+    {
+      "feature": "punct_parenthetical_rate",
+      "d": 0.025894779473701314,
+      "abs_d": 0.025894779473701314,
+      "human_mean": 0.021715845148196335,
+      "ai_mean": 0.019885750359864417,
+      "direction": "Human > AI"
+    },
+    {
+      "feature": "conn_although_rate",
+      "d": -0.0070261672646213125,
+      "abs_d": 0.0070261672646213125,
+      "human_mean": 0.0006472742583340036,
+      "ai_mean": 0.0007747431795660041,
+      "direction": "AI > Human"
+    }
+  ]
+}

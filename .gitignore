@@ -20,5 +20,5 @@ build/
 .idea/
 .vscode/
 
-data/
 docs/
+data/corpus/
