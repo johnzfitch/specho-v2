@@ -5,49 +5,32 @@
 │                              SPECHO V2 UNIFIED                               │
 ├──────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
-│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐          │
-│  │  CORPUS SYSTEM  │    │   FINGERPRINT   │    │    WEB/API      │          │
-│  │                 │    │     SYSTEM      │    │                 │          │
-│  │ • HuggingFace   │───►│                 │───►│ definitelynot.ai│          │
-│  │ • Arena/LMSYS   │    │ 45D Extraction  │    │ • PHP frontend  │          │
-│  │ • Manual        │    │ • Layer A (5D)  │    │ • Python API    │          │
-│  │ • Academic      │    │ • Layer B (15D) │    │ • SSE streaming │          │
-│  │ • Legal/PACER   │    │ • Layer C (12D) │    │                 │          │
-│  │                 │    │ • Layer D (7D)  │    │                 │          │
-│  │   500+ samples  │    │ • Layer E (6D)  │    │                 │          │
-│  └─────────────────┘    └────────┬────────┘    └─────────────────┘          │
+│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐           │
+│  │  CORPUS SYSTEM  │    │   FINGERPRINT   │    │    WEB/API      │           │
+│  │                 │    │     SYSTEM      │    │                 │           │
+│  │ • HuggingFace   │───►│                 │───►│ definitelynot.ai│           │
+│  │ • Arena/LMSYS   │    │ 45D Extraction  │    │ • PHP frontend  │           │
+│  │ • Manual        │    │ • Layer A (5D)  │    │ • Python API    │           │
+│  │ • Academic      │    │ • Layer B (15D) │    │ • SSE streaming │           │
+│  │ • Legal/PACER   │    │ • Layer C (12D) │    │                 │           │
+│  │                 │    │ • Layer D (7D)  │    │                 │           │
+│  │   500+ samples  │    │ • Layer E (6D)  │    │                 │           │
+│  └─────────────────┘    └────────┬────────┘    └─────────────────┘           │
 │                                  │                                           │
 │                                  ▼                                           │
-│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐          │
-│  │   VALIDATION    │    │   CLASSIFIER    │    │   VERIFICATION  │          │
-│  │                 │    │                 │    │                 │          │
-│  │ • 464 samples   │◄───│ • Tiered (1-3)  │───►│ • Model ID      │          │
-│  │ • 7 models      │    │ • <1ms tier 1   │    │ • AURORA trust  │          │
-│  │ • Cohen's d     │    │ • 98.6% acc     │    │ • Drift monitor │          │
-│  └─────────────────┘    └─────────────────┘    └─────────────────┘          │
+│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐           │
+│  │   VALIDATION    │    │   CLASSIFIER    │    │   VERIFICATION  │           │
+│  │                 │    │                 │    │                 │           │
+│  │ • x   samples   │◄───│ • Tiered        │───►│ • Model ID      │           │
+│  │ • y   models    │    │ • <1ms          │    │ • AURORA trust  │           │
+│  │ • Cohen's d     │    │ • 98.6% acc     │    │ • Drift monitor │           │
+│  └─────────────────┘    └─────────────────┘    └─────────────────┘           │
 │                                                                              │
-├──────────────────────────────────────────────────────────────────────────────┤
-│  LAYERS: A(trajectory) + B(echo) + C(epistemic+transitions) + D(syntax) + E │
-│  TIERS:  1=E(<1ms) → 2=E+B+C(~50ms) → 3=ALL(~100ms)                         │
-│  FIX:    24D→45D restored missing Layer B, dropped FP from 27.6%→<8%        │
+|
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-A 45-dimensional feature extraction system for detecting AI-generated text and identifying which model produced it.
 
-## Architecture
-
-```
-45D = Layer A (5D) + Layer B (15D) + Layer C (12D) + Layer D (7D) + Layer E (6D)
-```
-
-| Layer | Dims | Name | Trust Level | Dependencies |
-|-------|------|------|-------------|--------------|
-| A | 5 | Trajectory | HIGH | sentence-transformers |
-| B | 15 | Echo | MEDIUM-HIGH | spaCy (fallback available) |
-| C | 12 | Epistemic + Transitions | MEDIUM | none |
-| D | 7 | Syntactic | LOWER | spaCy |
-| E | 6 | Lightweight | HIGH | none |
 
 ## Quick Start
 
